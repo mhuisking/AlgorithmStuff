@@ -7,10 +7,11 @@ public class ZipCodeInterval {
     public Integer upperBoundZipCode;
 
     public ZipCodeInterval(Integer lowerBoundZipCode, Integer upperBoundZipCode) {
+        if(upperBoundZipCode < lowerBoundZipCode){
+            throw new RuntimeException(String.format("Invalid interval parameters: Zip code end range value of %05d must be greater than start range value of %05d", upperBoundZipCode, lowerBoundZipCode));        }
         this.lowerBoundZipCode = lowerBoundZipCode;
         this.upperBoundZipCode = upperBoundZipCode;
     }
-
 
     /**
      * Determines if the interval contains a given zipcode.
@@ -34,7 +35,7 @@ public class ZipCodeInterval {
 
     @Override
     public String toString() {
-        String.format("[%05d,%05d]", lowerBoundZipCode, upperBoundZipCode)
+        return String.format("[%05d,%05d]", lowerBoundZipCode, upperBoundZipCode);
     }
 
 }
