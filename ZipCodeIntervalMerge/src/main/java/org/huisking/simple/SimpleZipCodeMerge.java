@@ -7,9 +7,9 @@ import java.util.*;
 public class SimpleZipCodeMerge {
 
     private ArrayDeque<ZipCodeInterval> result = new ArrayDeque<>();
-    private ArrayList<ZipCodeInterval> listToProcess = new ArrayList<>();
+    private List<ZipCodeInterval> listToProcess = new ArrayList<>();
 
-    public SimpleZipCodeMerge(ArrayList<ZipCodeInterval> zipListToProcess) {
+    public SimpleZipCodeMerge(List<ZipCodeInterval> zipListToProcess) {
         this.listToProcess = zipListToProcess;
     }
 
@@ -21,15 +21,20 @@ public class SimpleZipCodeMerge {
 
         for (int i =1; i<listToProcess.size(); i++)
         {
-            ZipCodeInterval top = (ZipCodeInterval) result.peek();
-            ZipCodeInterval current = listToProcess.get(i);
-            if (top.getUpperBoundZipCode() > current.getLowerBoundZipCode())
-            {
-                if (top.getUpperBoundZipCode() < current.getUpperBoundZipCode())
-                    top.setUpperBoundZipCode(current.getUpperBoundZipCode());
+            ZipCodeInterval current = result.peek();
+            ZipCodeInterval next = listToProcess.get(i);
+            if(current.intersects(next)){
+                current.setUpperBoundZipCode(next.getUpperBoundZipCode());
             }
-            else
-                result.push(current);
+//            if (current.getUpperBoundZipCode() > next.getLowerBoundZipCode())
+//            {
+//                if (current.getUpperBoundZipCode() < next.getUpperBoundZipCode())
+//                    current.setUpperBoundZipCode(next.getUpperBoundZipCode());
+//            }
+            else{
+                result.push(next);
+            }
+
 
         }
         ArrayList<ZipCodeInterval> mergedIntervals = new ArrayList<>();
