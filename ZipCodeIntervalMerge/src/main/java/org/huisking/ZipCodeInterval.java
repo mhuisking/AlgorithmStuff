@@ -4,7 +4,24 @@ package org.huisking;
 public class ZipCodeInterval {
 
     private Integer lowerBoundZipCode;
-    public Integer upperBoundZipCode;
+
+    public Integer getLowerBoundZipCode() {
+        return lowerBoundZipCode;
+    }
+
+    public void setLowerBoundZipCode(Integer lowerBoundZipCode) {
+        this.lowerBoundZipCode = lowerBoundZipCode;
+    }
+
+    public Integer getUpperBoundZipCode() {
+        return upperBoundZipCode;
+    }
+
+    public void setUpperBoundZipCode(Integer upperBoundZipCode) {
+        this.upperBoundZipCode = upperBoundZipCode;
+    }
+
+    private Integer upperBoundZipCode;
 
     public ZipCodeInterval(Integer lowerBoundZipCode, Integer upperBoundZipCode) {
         if(upperBoundZipCode < lowerBoundZipCode){
