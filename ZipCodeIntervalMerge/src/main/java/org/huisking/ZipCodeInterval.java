@@ -2,7 +2,6 @@ package org.huisking;
 
 
 public class ZipCodeInterval {
-
     private Integer lowerBoundZipCode;
 
     public Integer getLowerBoundZipCode() {
@@ -47,12 +46,33 @@ public class ZipCodeInterval {
      * @return True if "this" overlaps with the comparedInterval
      */
     public boolean intersects(ZipCodeInterval comparedInterval) {
-        return lowerBoundZipCode <= comparedInterval.upperBoundZipCode && upperBoundZipCode >= comparedInterval.lowerBoundZipCode;
+        return upperBoundZipCode >= comparedInterval.lowerBoundZipCode && lowerBoundZipCode <= comparedInterval.upperBoundZipCode;
     }
 
     @Override
     public String toString() {
         return String.format("[%05d,%05d]", lowerBoundZipCode, upperBoundZipCode);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ZipCodeInterval that = (ZipCodeInterval) o;
+
+        if (lowerBoundZipCode != null ? !lowerBoundZipCode.equals(that.lowerBoundZipCode) : that.lowerBoundZipCode != null)
+            return false;
+        return upperBoundZipCode != null ? upperBoundZipCode.equals(that.upperBoundZipCode) : that.upperBoundZipCode == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = lowerBoundZipCode != null ? lowerBoundZipCode.hashCode() : 0;
+        result = 31 * result + (upperBoundZipCode != null ? upperBoundZipCode.hashCode() : 0);
+        return result;
+    }
+
+
 
 }
