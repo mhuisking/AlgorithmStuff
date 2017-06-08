@@ -1,19 +1,14 @@
 package org.huisking.simple;
 
-import org.huisking.ZipCodeInterval;
+import org.huisking.model.ZipCodeInterval;
 
 import java.util.*;
 
 public class SimpleZipCodeMerge {
 
     private ArrayDeque<ZipCodeInterval> result = new ArrayDeque<>();
-    private List<ZipCodeInterval> listToProcess = new ArrayList<>();
 
-    public SimpleZipCodeMerge(List<ZipCodeInterval> zipListToProcess) {
-        this.listToProcess = zipListToProcess;
-    }
-
-    public ArrayList<ZipCodeInterval> mergeZipList(){
+    public ArrayList<ZipCodeInterval> mergeZipList(List<ZipCodeInterval> listToProcess){
 
         listToProcess.sort(Comparator.comparing(ZipCodeInterval::getLowerBoundZipCode));
 
@@ -34,9 +29,9 @@ public class SimpleZipCodeMerge {
             else{
                 result.push(next);
             }
-
-
         }
+
+        //
         ArrayList<ZipCodeInterval> mergedIntervals = new ArrayList<>();
         while (!result.isEmpty())
         {
