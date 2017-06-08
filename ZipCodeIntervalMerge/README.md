@@ -25,9 +25,10 @@ ZipCode FAQ: [ http://www.zipboundary.com/zipcode_faqs.html]( http://www.zipboun
 
 ### Basic/Naive Algorithm #2 Sorted Double List Based *O(n Log n)* :
    Time complexity of the method is O(nLogn) which is for sorting. Once the lists of intervals are sorted, merging takes linear time.
-
+Additional benefit is that the ranges remain "immutable" no manipulation of values once constructed.
 * Split and sort the collection of ranges into two lists
 * Iterate, compare, add to result
+
 
 
 ### Interval Tree based Algorithm -- possible *O(log n)* :
