@@ -1,16 +1,25 @@
 package org.huisking.array;
 
 import org.huisking.model.ZipCodeInterval;
-import org.huisking.simple.SimpleZipCodeMerge;
+import org.junit.Before;
 import org.junit.Test;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.*;
 
 public class ArrayBasedZipCodeMergeTest {
+
+
     @Test
     public void mergeUsingArrays_whenReferenceDataIsMerged_returnsCorrectResult() throws Exception {
         List<ZipCodeInterval> referenceArray  = Arrays.asList( new ZipCodeInterval[]{ new ZipCodeInterval(94133,94133),
@@ -25,5 +34,6 @@ public class ArrayBasedZipCodeMergeTest {
 
         assertTrue(expectedResult.equals(result));
     }
+
 
 }

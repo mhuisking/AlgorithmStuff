@@ -28,6 +28,16 @@ public class ZipCodeIntervalTest {
     }
 
     @Test
+    public void zipCodeIntervalConstructor_whenNegativeValueIsPassed_throwsRuntimeExceptionWithMessage() {
+        String exceptionMessage = "Invalid interval parameters: [-95660, -95663] Zip Codes cannot be negative values";
+
+        exception.expect(RuntimeException.class);
+        exception.expectMessage(equalTo(exceptionMessage));
+
+        ZipCodeInterval badInterval = new ZipCodeInterval(-95663, -95660);
+    }
+
+    @Test
     public void contains_whenIntervalContainsSpecifiedZipCode_returnTrue() {
         Integer penrynZip = 95663;
         assertTrue(placerCountyZips.contains(penrynZip));

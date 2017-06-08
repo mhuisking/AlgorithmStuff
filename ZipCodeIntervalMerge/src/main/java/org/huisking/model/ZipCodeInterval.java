@@ -4,6 +4,18 @@ public class ZipCodeInterval {
     private Integer lowerBoundZipCode;
     private Integer upperBoundZipCode;
 
+
+    public ZipCodeInterval(Integer lowerBoundZipCode, Integer upperBoundZipCode) {
+        if (upperBoundZipCode < lowerBoundZipCode) {
+            throw new RuntimeException(String.format("Invalid interval parameters: Zip code end range value of %05d must be greater than start range value of %05d", upperBoundZipCode, lowerBoundZipCode));
+        }
+        if (upperBoundZipCode < 0 || lowerBoundZipCode < 0) {
+            throw new RuntimeException(String.format("Invalid interval parameters: [%05d, %05d] Zip Codes cannot be negative values", upperBoundZipCode, lowerBoundZipCode));
+        }
+        this.lowerBoundZipCode = lowerBoundZipCode;
+        this.upperBoundZipCode = upperBoundZipCode;
+    }
+
     public Integer getLowerBoundZipCode() {
         return lowerBoundZipCode;
     }
@@ -17,15 +29,6 @@ public class ZipCodeInterval {
     }
 
     public void setUpperBoundZipCode(Integer upperBoundZipCode) {
-        this.upperBoundZipCode = upperBoundZipCode;
-    }
-
-
-
-    public ZipCodeInterval(Integer lowerBoundZipCode, Integer upperBoundZipCode) {
-        if(upperBoundZipCode < lowerBoundZipCode){
-            throw new RuntimeException(String.format("Invalid interval parameters: Zip code end range value of %05d must be greater than start range value of %05d", upperBoundZipCode, lowerBoundZipCode));        }
-        this.lowerBoundZipCode = lowerBoundZipCode;
         this.upperBoundZipCode = upperBoundZipCode;
     }
 
@@ -72,7 +75,6 @@ public class ZipCodeInterval {
         result = 31 * result + (upperBoundZipCode != null ? upperBoundZipCode.hashCode() : 0);
         return result;
     }
-
 
 
 }

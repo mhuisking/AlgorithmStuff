@@ -1,13 +1,37 @@
 package org.huisking.simple;
 
+import org.huisking.array.ArrayBasedZipCodeMerge;
 import org.huisking.model.ZipCodeInterval;
+import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.assertTrue;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class SimpleZipCodeMergeTest {
+
+    List<ZipCodeInterval> allZipList = new ArrayList<>();
+
+    @Before
+    public void setUp() throws Exception {
+        //Create a list of all zipcodes from csv
+        File zipFile = new File(getClass().getClassLoader().getResource("zips.csv").getFile());
+        InputStream inputStream = new FileInputStream(zipFile);
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+
+        allZipList = bufferedReader.lines().map(mapToZipInterval).collect(Collectors.toList());
+
+    }
+
     @Test
     public void mergeZipList_whenReferenceDataIsMerged_returnsCorrectResult() throws Exception {
 
@@ -23,5 +47,20 @@ public class SimpleZipCodeMergeTest {
 
         assertTrue(expectedResult.equals(result));
     }
+
+    @Test
+    public void mergeUsingArrays_whenPassedAllZips_returnsAllZips() throws Exception {
+        SimpleZipCodeMerge simpleZipCodeMergeZipCodeMerge = new SimpleZipCodeMerge();
+        List<ZipCodeInterval> result = simpleZipCodeMergeZipCodeMerge.mergeZipList(allZipList);
+
+        assertTrue(allZipList.equals(result));
+    }
+
+
+    // Quick hack
+    private Function<String, ZipCodeInterval> mapToZipInterval = (line) -> {
+        String[] p = line.split(",");
+        return new ZipCodeInterval(Integer.parseInt(p[1]), Integer.parseInt(p[1]));
+    };
 
 }

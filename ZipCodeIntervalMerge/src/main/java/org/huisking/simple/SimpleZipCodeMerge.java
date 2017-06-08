@@ -10,10 +10,17 @@ public class SimpleZipCodeMerge {
 
     public ArrayList<ZipCodeInterval> mergeZipList(List<ZipCodeInterval> listToProcess){
 
-        listToProcess.sort(Comparator.comparing(ZipCodeInterval::getLowerBoundZipCode));
+        // Sort Interval List by Lower Bound
+        listToProcess.sort(Comparator.comparing(ZipCodeInterval::getLowerBoundZipCode).thenComparing(ZipCodeInterval::getUpperBoundZipCode));
 
+        // Push the first interval onto the stack
         result.push(listToProcess.get(0));
 
+        // Iterate through the remainder of the list (starting at the 2nd item)
+        // determine if the current interval (on the stack) has an intersection with
+        // "next" in process interval.  If so, update the upper bound on the current
+        // increasing the interval, else, the current interval is complete, and push
+        // the in process interval onto the stack for the next comparison.
         for (int i =1; i<listToProcess.size(); i++)
         {
             ZipCodeInterval current = result.peek();
@@ -21,17 +28,13 @@ public class SimpleZipCodeMerge {
             if(current.intersects(next)){
                 current.setUpperBoundZipCode(next.getUpperBoundZipCode());
             }
-//            if (current.getUpperBoundZipCode() > next.getLowerBoundZipCode())
-//            {
-//                if (current.getUpperBoundZipCode() < next.getUpperBoundZipCode())
-//                    current.setUpperBoundZipCode(next.getUpperBoundZipCode());
-//            }
             else{
                 result.push(next);
             }
         }
 
-        //
+        // Create the result list by popping from the end of the stack
+        // to provide and ordered zip code interval list.
         ArrayList<ZipCodeInterval> mergedIntervals = new ArrayList<>();
         while (!result.isEmpty())
         {
