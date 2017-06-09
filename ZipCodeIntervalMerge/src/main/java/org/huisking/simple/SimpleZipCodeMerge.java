@@ -26,7 +26,9 @@ public class SimpleZipCodeMerge {
             ZipCodeInterval current = result.peek();
             ZipCodeInterval next = listToProcess.get(i);
             if(current.intersects(next)){
-                current.setUpperBoundZipCode(next.getUpperBoundZipCode());
+                if(current.getUpperBoundZipCode() < next.getUpperBoundZipCode()) {
+                    current.setUpperBoundZipCode(next.getUpperBoundZipCode());
+                }
             }
             else{
                 result.push(next);

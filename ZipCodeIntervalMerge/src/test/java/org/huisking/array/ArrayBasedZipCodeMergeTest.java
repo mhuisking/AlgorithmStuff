@@ -15,10 +15,22 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static org.huisking.FileUtils.getIntervalListFromResourceFile;
 import static org.junit.Assert.*;
 
 public class ArrayBasedZipCodeMergeTest {
 
+    List<ZipCodeInterval> allZipList;
+    List<ZipCodeInterval> allZipMergeResult;
+
+    @Before
+    public void setUp() throws Exception {
+        //Create a list of all zipcodes from csv
+        allZipList = getIntervalListFromResourceFile("AllZipRanges.csv");
+
+        //Create the result list from csv
+        allZipMergeResult = getIntervalListFromResourceFile("AllZipsMergeResult.csv");
+    }
 
     @Test
     public void mergeUsingArrays_whenReferenceDataIsMerged_returnsCorrectResult() throws Exception {
@@ -35,5 +47,11 @@ public class ArrayBasedZipCodeMergeTest {
         assertTrue(expectedResult.equals(result));
     }
 
+    @Test
+    public void mergeUsingArrays_whenPassedAllZips_returnsAllZips() throws Exception {
+        ArrayBasedZipCodeMerge arrayBasedZipCodeMerge = new ArrayBasedZipCodeMerge();
+        List<ZipCodeInterval> result = arrayBasedZipCodeMerge.mergeUsingArrays(allZipList);
 
+        assertTrue(allZipMergeResult.equals(result));
+    }
 }

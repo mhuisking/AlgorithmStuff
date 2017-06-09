@@ -1,16 +1,13 @@
 package org.huisking.simple;
 
-import org.huisking.array.ArrayBasedZipCodeMerge;
 import org.huisking.model.ZipCodeInterval;
 import org.junit.Before;
 import org.junit.Test;
+
+import static org.huisking.FileUtils.getIntervalListFromResourceFile;
 import static org.junit.Assert.assertTrue;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -19,22 +16,20 @@ import java.util.stream.Collectors;
 
 public class SimpleZipCodeMergeTest {
 
-    List<ZipCodeInterval> allZipList = new ArrayList<>();
+    List<ZipCodeInterval> allZipList;
+    List<ZipCodeInterval> allZipMergeResult;
 
     @Before
     public void setUp() throws Exception {
         //Create a list of all zipcodes from csv
-        File zipFile = new File(getClass().getClassLoader().getResource("zips.csv").getFile());
-        InputStream inputStream = new FileInputStream(zipFile);
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+        allZipList = getIntervalListFromResourceFile("AllZipRanges.csv");
 
-        allZipList = bufferedReader.lines().map(mapToZipInterval).collect(Collectors.toList());
-
+        //Create the result list from csv
+        allZipMergeResult = getIntervalListFromResourceFile("AllZipsMergeResult.csv");
     }
 
     @Test
     public void mergeZipList_whenReferenceDataIsMerged_returnsCorrectResult() throws Exception {
-
         List<ZipCodeInterval> referenceArray  = Arrays.asList( new ZipCodeInterval[]{ new ZipCodeInterval(94133,94133),
                 new ZipCodeInterval(94200,94299),
                 new ZipCodeInterval(94226,94399)});
@@ -53,14 +48,7 @@ public class SimpleZipCodeMergeTest {
         SimpleZipCodeMerge simpleZipCodeMergeZipCodeMerge = new SimpleZipCodeMerge();
         List<ZipCodeInterval> result = simpleZipCodeMergeZipCodeMerge.mergeZipList(allZipList);
 
-        assertTrue(allZipList.equals(result));
+        assertTrue(allZipMergeResult.equals(result));
     }
-
-
-    // Quick hack
-    private Function<String, ZipCodeInterval> mapToZipInterval = (line) -> {
-        String[] p = line.split(",");
-        return new ZipCodeInterval(Integer.parseInt(p[1]), Integer.parseInt(p[1]));
-    };
 
 }
